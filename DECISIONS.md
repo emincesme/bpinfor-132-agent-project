@@ -350,10 +350,15 @@ today (source: own), with the four ambiguous ones tagged.
 
 ### Deferred
 
-- The `request` specialist uses the week 2 zero-shot prompt through the
-  free-text `respond()` call, so it returns prose rather than a validated
-  `ServiceRequest`. Wiring the week 2 extractor (the shipped few-shot
-  variant) behind this route is homework.
+- Homework, done after the session: the week 2 extractor is wired behind
+  the `request` route. `extract()` and `SYSTEM_ZERO_SHOT` are imported from
+  `labs/week02/starter/extractor.py`; the three shipped examples (EX-01,
+  EX-03, EX-04) are copied into `routes.py`, because `02_few_shot.py`
+  imports a `scoring` module that collides with week 3's. Rerun on
+  2026-10-06, qwen3:4b-instruct: routing unchanged at 21/24; router 14,538
+  tokens (+1,623, about 232 per request query, matching week 2's
+  example-block cost); the routing call is now 57 per cent of the routed
+  total. Sections 2 to 6 report the in-session run.
 - Model routing (variant A) was not run: a second, larger model does not
   fit alongside the first on an 8 GB machine.
 - The route definition I would rewrite first is `info`, limited to
@@ -375,11 +380,11 @@ read, adjusted, and ran these myself, and I can explain them in my own words.
 **Week 3:** I used Claude to explain the task, the starter code and the
 policy-layer concepts step by step, and to draft code and text, including
 `classify`, `apply_policy`, `score_routes`, the gold-set update, the voting
-variant, the `status`, `other` and monolith prompt wording, the English
-wording of my route definitions, and drafts of the DECISIONS entries. The
-decisions are mine: the route definitions, the confidence threshold after
-reading the distribution, the safe default, adopting the ambiguity
-convention, the diagnosis of the `info` definition, and the stretch variant.
-I read, adjusted, and ran everything myself.
+variant, the extractor wiring behind the `request` route, the `status`, `other`
+and monolith prompt wording, the English wording of my route definitions, and 
+drafts of the DECISIONS entries. The decisions are mine: the route definitions, 
+the confidence threshold after reading the distribution, the safe default, 
+adopting the ambiguity convention, the diagnosis of the `info` definition, and
+the stretch variant. I read, adjusted, and ran everything myself.
 
 All numbers in this report come from my own runs.

@@ -9,6 +9,8 @@ conditions have drifted and you no longer know what you compared.
 
 from __future__ import annotations
 
+from extractor import extract
+
 import argparse
 
 from queries import QUERIES
@@ -74,8 +76,13 @@ def run_router(client, model=SMALL.name):
                         evidence_ok=routed.evidence_ok)
 
         with rec.step("model", f"{model}:respond") as step:
-            answer, meta_a = respond(
-                client, SPECIALISTS[routed.applied_route], q.text, model)
+            if routed.applied_route == "request":
+                record, meta_a = extract(
+                    client, SPECIALISTS["request"], q.text, model)
+                answer = record.model_dump_json() if record else meta_a["raw"]
+            else:
+                answer, meta_a = respond(
+                    client, SPECIALISTS[routed.applied_route], q.text, model)
             step.tokens(meta_a["prompt_tokens"], meta_a["completion_tokens"])
 
         rec.finish(output=answer, outcome="ok",

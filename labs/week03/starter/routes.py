@@ -12,6 +12,21 @@ of your classifier. You will not be able to tell those two apart afterwards.
 
 from __future__ import annotations
 
+from extractor import SYSTEM_ZERO_SHOT
+
+REQUEST_EXAMPLES = """\
+Examples:
+
+Message: The badge reader at the side entrance rejects my card since the system update. I can still get in through the main door, so it is not blocking me.
+Answer: {"category": "access", "urgency": "standard", "due_date": null, "quote": "it is not blocking me"}
+
+Message: Der Laptop aus dem Sitzungssaal laedt nicht mehr, das Netzteil ist vermutlich defekt. Ersatz waere bis zum 20/09/2026 gut.
+Answer: {"category": "hardware", "urgency": "standard", "due_date": "2026-09-20", "quote": "Ersatz waere bis zum 20/09/2026 gut"}
+
+Message: For information only: the new intranet search will be switched on next week. Nothing changes for users.
+Answer: {"category": "other", "urgency": "info", "due_date": null, "quote": "Nothing changes for users"}
+"""
+
 # --------------------------------------------------------------------------
 # TODO 1. One sentence per route, written before any prompt.
 # --------------------------------------------------------------------------
@@ -137,21 +152,7 @@ desk cannot help.
 
 SPECIALISTS = {
     
-    "request": ("You extract one structured record from a message sent to "
-                "the help desk of a commune. Messages arrive in English, "
-                "French, or German. Always answer in the same record shape.\n"
-                "category: exactly one of access, hardware, billing, "
-                "facilities, other.\n"
-                "urgency: exactly one of urgent, standard, info.\n"
-                "due_date: a calendar date written in YYYY-MM-DD, only if the "
-                "message states one. Read DD/MM/YYYY as day first. Convert "
-                "dates written in words. If the message states no date, or "
-                "only a relative expression such as 'tomorrow', 'as soon as "
-                "possible' or 'before the end of the month', return null. "
-                "Never guess a date.\n"
-                "quote: one short span copied character for character from "
-                "the message that supports the urgency decision. Do not "
-                "translate, shorten or rephrase it."),
+    "request": SYSTEM_ZERO_SHOT + "\n" + REQUEST_EXAMPLES,
     "info": ("You answer a question about a commune service, using only "
              "what the message and your instructions contain. You have no "
              "reference material, so you must never state an opening time, "
