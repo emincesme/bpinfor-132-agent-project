@@ -1,0 +1,104 @@
+{
+  "rows": [
+    {
+      "architecture": "A baseline",
+      "green": false,
+      "tool_calls": 24,
+      "tokens": 28524,
+      "seconds": 218.5
+    },
+    {
+      "architecture": "B planner",
+      "green": false,
+      "plan_ok": false,
+      "plan_problems": [
+        "suspect_file is not a repository file: bookings.py"
+      ],
+      "applied": "REFUSED: no such file: bookings.py",
+      "verdict": null,
+      "verdict_reason": null,
+      "fix": "bookings.py: return 0.20 if is_off_peak(booking.start_hour) else 0.0 -> return 0.20 if is_off_peak(booking.start_hour) or booking.start_hour == 20 else 0.0",
+      "tokens": 5272,
+      "seconds": 137.5
+    },
+    {
+      "architecture": "C planner+reviewer",
+      "green": false,
+      "plan_ok": false,
+      "plan_problems": [
+        "suspect_file is not a repository file: booking_discounts.py",
+        "no step runs the tests"
+      ],
+      "applied": "not attempted",
+      "verdict": "reject",
+      "verdict_reason": "Changes the comparison operator from > to >=, affecting the test result.",
+      "fix": "booking_discounts.py: return start_hour > OFF_PEAK_FROM_HOUR -> return start_hour >= OFF_PEAK_FROM_HOUR",
+      "tokens": 3563,
+      "seconds": 124.2
+    },
+    {
+      "architecture": "A baseline",
+      "green": false,
+      "tool_calls": 20,
+      "tokens": 17726,
+      "seconds": 241.8
+    },
+    {
+      "architecture": "B planner",
+      "green": false,
+      "plan_ok": false,
+      "plan_problems": [
+        "suspect_file is not a repository file: bookings.py",
+        "no step runs the tests"
+      ],
+      "applied": "REFUSED: no such file: bookings.py",
+      "verdict": null,
+      "verdict_reason": null,
+      "fix": "bookings.py: return 0.20 if is_off_peak(booking.start_hour) else 0.0 -> return 0.20 if is_off_peak(booking.start_hour) or booking.start_hour == 20 else 0.0",
+      "tokens": 3531,
+      "seconds": 102.7
+    },
+    {
+      "architecture": "C planner+reviewer",
+      "green": false,
+      "error": "UnexpectedModelBehavior",
+      "tokens": 0,
+      "seconds": 60.1
+    },
+    {
+      "architecture": "A baseline",
+      "green": true,
+      "tool_calls": 14,
+      "tokens": 10016,
+      "seconds": 142.4
+    },
+    {
+      "architecture": "B planner",
+      "green": false,
+      "plan_ok": false,
+      "plan_problems": [
+        "suspect_file is not a repository file: booking_service.py"
+      ],
+      "applied": "REFUSED: no such file: booking_service.py",
+      "verdict": null,
+      "verdict_reason": null,
+      "fix": "booking_service.py: return 0.20 if is_off_peak(booking.start_hour) else 0.0 -> return 0.20 if is_off_peak(booking.start_hour) >= 1 else 0.0",
+      "tokens": 1927,
+      "seconds": 61.8
+    },
+    {
+      "architecture": "C planner+reviewer",
+      "green": false,
+      "plan_ok": false,
+      "plan_problems": [
+        "suspect_file is not a repository file: booking_service.py"
+      ],
+      "applied": "not attempted",
+      "verdict": "reject",
+      "verdict_reason": "Change modifies the comparison in the test-failing line without fixing the logic.",
+      "fix": "booking_service.py: return start_hour > OFF_PEAK_FROM_HOUR -> return start_hour >= OFF_PEAK_FROM_HOUR",
+      "tokens": 4469,
+      "seconds": 107.7
+    }
+  ]
+}
