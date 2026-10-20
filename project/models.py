@@ -150,8 +150,8 @@ def installed_models(timeout: float = 5.0) -> list[str]:
 # maximum context, and two of the course models advertise 262144. Measured on
 # the teaching machine:
 #
-#   qwen3:4b-instruct, default 262144 :  42 GB reserved, 77 per cent on CPU
-#   qwen3:4b-instruct, set to 8192    : 3.8 GB reserved, 100 per cent on GPU
+#   qwen3:4b-instruct, default 262144 :  42 GB reserved, 77 percent on CPU
+#   qwen3:4b-instruct, set to 8192    : 3.8 GB reserved, 100 percent on GPU
 #
 # Eleven times the memory, for context you will never use. On a 16 GB machine
 # it merely spills to the CPU and runs slowly. On an 8 GB machine it is the

@@ -1,0 +1,35 @@
+{
+  "facts": [
+    {
+      "subject": "A. Muller",
+      "kind": "waste",
+      "text": "Has a 120 litre bin collected weekly",
+      "handle": "fact-47b34eabd1d7",
+      "written_at": "2026-10-20T14:19:12"
+    },
+    {
+      "subject": "A. Muller",
+      "kind": "address",
+      "text": "Lives at Rue Principale 4",
+      "handle": "fact-0ecd7e87e430",
+      "written_at": "2026-10-20T14:19:12"
+    },
+    {
+      "subject": "B. Schmit",
+      "kind": "waste",
+      "text": "Has a 240 litre bin collected every two weeks",
+      "handle": "fact-7f8f32eca862",
+      "written_at": "2026-10-20T14:19:12"
+    },
+    {
+      "subject": "A. Muller",
+      "kind": "contact",
+      "text": "Prefers email only",
+      "handle": "fact-66438901284a",
+      "written_at": "2026-10-20T14:54:41"
+    }
+  ],
+  "cases": {
+    "case-6c27e46202d7": "A. Muller"
+  }
+}
