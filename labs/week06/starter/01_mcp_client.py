@@ -10,10 +10,14 @@ Three things happen here and the third is the one to watch.
 from __future__ import annotations
 
 import asyncio
+import os
 
+import httpx2
 from mcp.client import Client
+from mcp.client.streamable_http import streamable_http_client
 
 SUBJECT = "A. Muller"
+DESK_KEY = os.environ.get("DESK_KEY", "")
 
 
 def text_of(result) -> str:
@@ -23,10 +27,13 @@ def text_of(result) -> str:
     return str(content)
 
 
-async def call(port: int, tool: str, **args):
-    async with Client(f"http://127.0.0.1:{port}/mcp") as client:
-        return await client.call_tool(tool, args)
-
+async def call(port: int, tool: str, key: str = DESK_KEY, **args):
+    # The key goes in a header set by this program, not in the tool arguments
+    async with httpx2.AsyncClient(headers={"X-Desk-Key": key}) as http:
+        transport = streamable_http_client(f"http://127.0.0.1:{port}/mcp",
+                                           http_client=http)
+        async with Client(transport) as client:
+            return await client.call_tool(tool, args)
 
 async def main() -> int:
     """TODO 6. Three steps, and the third has a warning attached.
@@ -65,6 +72,11 @@ async def main() -> int:
     print("case_subject on 8001:", subject)
     facts = await call(8001, "recall", subject=subject, query="email")
     print("recall on 8001:", text_of(facts))
+
+    # 4. Another desk, with a different key, tries the same handle
+    other = text_of(await call(8001, "case_subject", key="another-desk",
+                               handle=handle))
+    print("case_subject on 8001, another desk's key:", other)
     return 0
 
 

@@ -657,8 +657,24 @@ the course's `open_case`.
 A guessable handle would expose: a sequential handle such as `fact-0007`
 shows how many facts the store holds, and lets anyone who sees one handle
 try its neighbours (`fact-0006`) to read or forget another resident's
-fact. A random handle stops the guessing, but whoever holds a handle can
-still use it. The authorization check is homework.
+fact. A random handle stops the guessing, but on its own whoever holds a
+handle could still use it. Homework, done 2026-10-26: open_case records
+a fingerprint (sha256) of the desk key that opened the case, and
+case_subject answers only a request carrying the same key. Any other
+key, or none, gets the same "ERROR: no such case" as an unknown handle,
+so a stranger cannot even learn that the case exists. The key travels
+in an HTTP header (X-Desk-Key) set by the client program, never as a
+tool argument, so the model never sees it and an injection cannot make
+it write another desk's key. Only the fingerprint is stored, because
+artifacts/memory_store.json is committed. Checked on two instances:
+the opening desk resolved its handle on 8001; another key and a
+missing key were refused.
+
+What the check does not stop: whoever steals a desk's key becomes that
+desk, and the key crosses plain HTTP on localhost, where a real
+deployment needs TLS. recall and remember still take a resident's name
+directly, so they bypass the handle; closing that means making them
+take the handle too. Week 12.
 
 Without a handle, the server would have to remember between calls
 which resident a conversation is about, tied to a session. With a second
@@ -751,8 +767,7 @@ be deleted, `forget` is necessary but not enough, and telling them
 - Entry 4, memory off against memory on: not measured, because no
   script this week calls a model (see entry 4).
 - Homework before week 7: build the A2A channel from the marked
-  sections, and add an authorization check on the handle. Today anyone
-  holding a handle can read the case.
+  sections. The handle check is done (see entry 1).
 
 
 ## AI assistance
@@ -786,8 +801,9 @@ validator, the reviewer instructions and this section; I ran and checked
 every measurement myself.
 
 **Week 6:** Claude explained the lab and helped draft the
-memory methods, the MCP tools and client, the stateless checks and this
-section; I ran and checked every test myself.
+memory methods, the MCP tools and client, the stateless checks, the
+handle authorization check and this section; I ran and checked every
+test myself.
 
 All numbers in this report come from my own runs, except those labelled
 as the course recording or as estimates.

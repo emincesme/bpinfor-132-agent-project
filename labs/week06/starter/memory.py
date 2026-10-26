@@ -16,6 +16,7 @@ with a name the model can see.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import secrets
 import time
@@ -24,6 +25,9 @@ from pathlib import Path
 
 DEFAULT_PATH = Path("artifacts/memory_store.json")
 
+def fingerprint(key: str) -> str:
+    """A hash of the desk key. The key itself is never written to the file."""
+    return hashlib.sha256(key.encode()).hexdigest()
 
 @dataclass
 class Fact:
@@ -46,6 +50,7 @@ class MemoryStore:
     path: Path = DEFAULT_PATH
     facts: list[Fact] = field(default_factory=list)
     cases: dict[str, str] = field(default_factory=dict)
+    owners: dict[str, str] = field(default_factory=dict)
 
     # ----------------------------------------------------------------
     # TODO 1. Writing, and the handle it returns.
@@ -135,14 +140,17 @@ class MemoryStore:
     # The handle, which is block 2's subject
     # ----------------------------------------------------------------
 
-    def open_case(self, subject: str) -> str:
+    def open_case(self, subject: str, key: str) -> str:
         """Mint an explicit handle for a piece of ongoing state."""
         handle = f"case-{secrets.token_hex(6)}"
         self.cases[handle] = subject
+        self.owners[handle] = fingerprint(key)
         self.save()
         return handle
 
-    def subject_of(self, handle: str) -> str | None:
+    def subject_of(self, handle: str, key: str) -> str | None:
+        if self.owners.get(handle) != fingerprint(key):
+            return None
         return self.cases.get(handle)
 
     # ----------------------------------------------------------------
@@ -154,6 +162,7 @@ class MemoryStore:
         self.path.write_text(json.dumps({
             "facts": [vars(f) for f in self.facts],
             "cases": self.cases,
+            "owners": self.owners,
         }, indent=2, ensure_ascii=False), encoding="utf-8")
 
     @classmethod
@@ -163,4 +172,5 @@ class MemoryStore:
             data = json.loads(path.read_text(encoding="utf-8"))
             store.facts = [Fact(**f) for f in data.get("facts", [])]
             store.cases = data.get("cases", {})
+            store.owners = data.get("owners", {})
         return store

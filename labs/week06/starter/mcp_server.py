@@ -27,7 +27,19 @@ except ImportError as exc:             # noqa: BLE001
     ) from exc
 
 
+from mcp.server.mcpserver import Context
+
 app = MCPServer("memory-desk")
+
+# Authorization on the case handle. The desk key travels in an HTTP header
+# set by the client program, never as a tool argument, so the model never
+# sees it and cannot be talked into writing someone else's.
+KEY_HEADER = "x-desk-key"
+
+
+def desk_key(ctx: Context) -> str | None:
+    headers = ctx.headers or {}
+    return headers.get(KEY_HEADER)
 
 
 # --------------------------------------------------------------------------
@@ -140,26 +152,29 @@ def forget(handle: str) -> bool:
 # as an explicit handle argument instead of living in the server.
 
 @app.tool()
-def open_case(subject: str) -> str:
+def open_case(subject: str, ctx: Context) -> str:
     """Open a case for one resident and return its handle, for example
     "case-3f9a1c2b7e04".
 
     Call this once at the start of a conversation and keep the handle.
     Any server instance can resolve it later with case_subject.
     """
+    key = desk_key(ctx)
+    if not key:
+        return "ERROR: no desk key"
     store = MemoryStore.load()
-    return store.open_case(subject)
-
+    return store.open_case(subject, key)
 
 @app.tool()
-def case_subject(handle: str) -> str:
+def case_subject(handle: str, ctx: Context) -> str:
     """Return the resident that a case handle belongs to.
 
     Returns "ERROR: no such case: <handle>" if the handle is unknown.
     In that case do not guess a resident; open a new case instead.
     """
+    key = desk_key(ctx)
     store = MemoryStore.load()
-    subject = store.subject_of(handle)
+    subject = store.subject_of(handle, key) if key else None
     if subject is None:
         return f"ERROR: no such case: {handle}"
     return subject

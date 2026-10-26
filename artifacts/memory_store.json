@@ -25,11 +25,17 @@
       "subject": "A. Muller",
       "kind": "contact",
       "text": "Prefers email only",
-      "handle": "fact-66438901284a",
-      "written_at": "2026-10-20T14:54:41"
+      "handle": "fact-9edf7c0ed5c7",
+      "written_at": "2026-10-26T17:02:38"
     }
   ],
   "cases": {
-    "case-6c27e46202d7": "A. Muller"
+    "case-6c27e46202d7": "A. Muller",
+    "case-5dbadefb7756": "A. Muller",
+    "case-c870e5dee6c2": "A. Muller"
+  },
+  "owners": {
+    "case-5dbadefb7756": "78330a970e7efdb43c6b8a7cc2ed55ceb4aeaf423b9d990e6b7f9468a7fc7296",
+    "case-c870e5dee6c2": "aa708f4b84f0d400bc51ea398567bd06fcaf328c484e4d510610d333d1dbe2c3"
   }
 }
