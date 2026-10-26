@@ -9,16 +9,16 @@
 - served Ollama, one request at a time, locally
 - date: 2026-10-03
 
-Every number in this file is meaningless without those four lines, so they
-are stated once here and referred to rather than repeated.
+Every number in this section is meaningless without those four lines, so 
+they are stated once here and referred to rather than repeated.
 
 ### 1. Machine and model set
 
 I am running the required model set.
 
-[If you could not run the optional models, say so and say what you will do
-before week 9. This is a constraint on your project, not a failure, and
-naming it now is worth more than discovering it in week 9.]
+The optional vision model, qwen3-vl:4b (week 9), is not tested yet. I
+will pull it and check that it loads on 8 GB before week 9; if it does
+not fit, I will say so here and plan around it.
 
 ### 2. The first call
 
@@ -44,12 +44,12 @@ If the response was truncated instead of ending normally, I would not treat it a
 Which cell still returns a single answer at temperature 1.0, and why that
 one:
 
-[closed_short, t=1.0 still returned a single distinct answer. This suggests that increasing temperature does not necessarily create variation when the task strongly constrains the possible answer.]
+closed_short, t=1.0 still returned a single distinct answer. This suggests that increasing temperature does not necessarily create variation when the task strongly constrains the possible answer.
 
 Which cells a test asserting exact string equality would pass on, and what
 that tells me about testing this system:
 
-[An exact-string equality test would be stable for closed_short at both temperatures and for open_list at temperature 0.0, because each produced only one distinct output. It would be unreliable for open_list at temperature 1.0, where all six runs produced different strings. This shows that exact-string tests are only appropriate when the output is sufficiently constrained; for open-ended generation, a different evaluation method is needed.]
+An exact-string equality test would be stable for closed_short at both temperatures and for open_list at temperature 0.0, because each produced only one distinct output. It would be unreliable for open_list at temperature 1.0, where all six runs produced different strings. This shows that exact-string tests are only appropriate when the output is sufficiently constrained; for open-ended generation, a different evaluation method is needed.
 
 **The sentence that carries into week 10.** In my runs, repeated outputs were reliable for tightly constrained tasks and at temperature 0.0, but not for open-ended generation at temperature 1.0, where the exact wording changed between runs.
 
@@ -75,8 +75,8 @@ A 200-case golden set, at the token cost of my long case:
 | small tier | 0.03 EUR | 3.28 EUR |
 | large tier | 2.49 EUR | 244.14 EUR |
 
-Estimates against the price list dated [date in `project/prices.py`], not
-measurements. Running locally, my actual monetary cost was zero.
+Estimates against the price list dated 2026-08-10, not measurements. Running
+locally, my actual monetary cost was zero.
 
 Which tier I would run nightly, which I would run before a release, and why
 not the same one for both:
@@ -200,8 +200,6 @@ the point of this block.
 ### The gold set
 
 Ten cases written to `artifacts/goldset.json`, tagged by language.
-
-One thing my scorer cannot currently detect:
 
 One thing my scorer cannot currently detect: whether a quote actually
 supports the urgency decision. It only checks that the quote appears in the
@@ -791,4 +789,5 @@ every measurement myself.
 memory methods, the MCP tools and client, the stateless checks and this
 section; I ran and checked every test myself.
 
-All numbers in this report come from my own runs.
+All numbers in this report come from my own runs, except those labelled
+as the course recording or as estimates.
