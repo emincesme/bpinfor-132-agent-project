@@ -35,23 +35,41 @@ If the response was truncated instead of ending normally, I would not treat it a
 
 ### 3. Variance
 
-| cell | distinct (recording) | distinct (mine) | median latency |
-| closed_short, t=0.0 | 1/12 | 1/6 | 0.12 |
-| closed_short, t=1.0 | 1/12 | 1/6 | 0.11 |
-| open_list, t=0.0 | 1/12 | 1/6 | 1.28 |
-| open_list, t=1.0 | 11/12 | 6/6 | 1.28 |
+Full sweep, run live on 2026-10-26 (qwen3:4b-instruct, 6 runs per
+cell), next to the course recording (12 runs per cell, Apple M4,
+2026-08-10).
+
+| cell | distinct (recording) | distinct (mine) | median latency (mine, s) |
+| closed_short, t=0.0 | 1/12 | 1/6 | 0.15 |
+| closed_short, t=1.0 | 1/12 | 1/6 | 0.13 |
+| open_short, t=0.0 | 1/12 | 1/6 | 2.01 |
+| open_short, t=1.0 | 5/12 | 5/6 | 1.40 |
+| open_list, t=0.0 | 1/12 | 1/6 | 1.40 |
+| open_list, t=1.0 | 11/12 | 6/6 | 1.70 |
+| open_reasoning, t=0.0 | 1/12 | 1/6 | 7.56 |
+| open_reasoning, t=1.0 | 12/12 | 6/6 | 7.19 |
+
+One change to course code: `from_live` in `02_variance.py` ignored
+`--full` and always ran the two live prompts. For `--full` it now takes
+all four prompts from the recording, so the live run covers the same
+eight cells. Nothing else changed.
 
 Which cell still returns a single answer at temperature 1.0, and why that
 one:
 
-closed_short, t=1.0 still returned a single distinct answer. This suggests that increasing temperature does not necessarily create variation when the task strongly constrains the possible answer.
+closed_short, t=1.0 still returned a single distinct answer. This
+suggests that increasing temperature does not necessarily create
+variation when the task strongly constrains the possible answer.
 
 Which cells a test asserting exact string equality would pass on, and what
 that tells me about testing this system:
 
-An exact-string equality test would be stable for closed_short at both temperatures and for open_list at temperature 0.0, because each produced only one distinct output. It would be unreliable for open_list at temperature 1.0, where all six runs produced different strings. This shows that exact-string tests are only appropriate when the output is sufficiently constrained; for open-ended generation, a different evaluation method is needed.
-
-**The sentence that carries into week 10.** In my runs, repeated outputs were reliable for tightly constrained tasks and at temperature 0.0, but not for open-ended generation at temperature 1.0, where the exact wording changed between runs.
+It would pass on all four cells at temperature 0.0 and on closed_short
+at 1.0, because each produced one distinct output. It would fail at 1.0
+on open_short (5 of 6 different), open_list and open_reasoning (6 of 6
+different). The more open the task, the more the wording varies, so
+exact-string tests only suit tightly constrained outputs; open-ended
+generation needs a different evaluation method.
 
 ### 4. The cold start
 

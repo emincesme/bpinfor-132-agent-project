@@ -91,8 +91,15 @@ def from_replay(full: bool) -> list[dict]:
 def from_live(full: bool) -> list[dict]:
     from openai import OpenAI
     client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
+    prompts = LIVE_CELLS
+    if full:
+        # The starter ignored --full in live mode. Take all four prompts
+        # from the recording, so the live run covers the same eight cells.
+        payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+        prompts = {name.split("|")[0]: cell["prompt"]
+                   for name, cell in payload["cells"].items()}
     rows = []
-    for pname, prompt in LIVE_CELLS.items():
+    for pname, prompt in prompts.items():
         for tname, temp in (("t00", 0.0), ("t10", 1.0)):
             texts, lats = [], []
             for _ in range(LIVE_RUNS):
