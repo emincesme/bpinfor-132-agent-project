@@ -1,0 +1,40 @@
+{
+  "delegated": {
+    "taskId": "task-1",
+    "state": "completed",
+    "artifact": {
+      "parts": [
+        {
+          "data": {
+            "category": "access",
+            "urgency": "standard",
+            "due_date": "2026-11-15",
+            "quote": "before"
+          }
+        }
+      ]
+    }
+  },
+  "not_delegated": "translate is not on the card",
+  "failed": {
+    "taskId": "task-3",
+    "state": "failed",
+    "error": "empty message, nothing to extract"
+  },
+  "timed_out": {
+    "taskId": "task-4",
+    "state": "completed",
+    "artifact": {
+      "parts": [
+        {
+          "data": {
+            "category": "access",
+            "urgency": "standard",
+            "due_date": "2026-11-15",
+            "quote": "before"
+          }
+        }
+      ]
+    }
+  }
+}

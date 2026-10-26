@@ -762,13 +762,43 @@ logs and traces, backups, and the git history once
 be deleted, `forget` is necessary but not enough, and telling them
 "deleted" after `forget` alone would not be fully true.
 
+### Homework: the A2A channel
+
+Built in `labs/week06/starter/04_a2a_extraction.py`, with the same three
+pieces as `03_a2a.py`, but the remote agent does real work: it runs my
+week 2 extractor (qwen3:4b-instruct, temperature 0.0, local, 2026-10-26)
+and returns the record as a data part. Results are in
+`artifacts/week06_a2a.json`.
+
+- The card declares one skill, extract_request: text/plain in,
+  application/json out. A skill not on the card (translate) is handled
+  locally and no request is sent.
+- Every task ends in a terminal state. An empty message, an endpoint
+  error, or a record that fails validation give "failed", never a crash
+  and never an invented record. On "failed" the help desk sends the
+  message to a human queue, marked degraded.
+- The task id is kept after a timeout because the agent can be asked
+  again (GET /tasks/<id>). With a 0.5 s budget the call timed out, the
+  agent reported "working", and asking again later returned the
+  completed record.
+- The client validates the artifact as a ServiceRequest before using
+  it, and reports a mismatch rather than stringifying it.
+
+Why A2A here rather than another MCP tool: the extractor is a separate
+agent with its own model and prompt, it takes seconds, and the caller
+needs task states and a way to come back to work it stopped waiting
+for. The memory tools answer at once and hold no model.
+
+What the channel cannot catch: the delegated record validated, but its
+quote was the single word "before". It is verbatim and fits the schema,
+so neither my client's check nor the week 2 scorer flags it, though it
+supports nothing. A schema check proves the shape, not that the content
+is useful.
+
 ### Deferred
 
 - Entry 4, memory off against memory on: not measured, because no
   script this week calls a model (see entry 4).
-- Homework before week 7: build the A2A channel from the marked
-  sections. The handle check is done (see entry 1).
-
 
 ## AI assistance
 
@@ -802,8 +832,8 @@ every measurement myself.
 
 **Week 6:** Claude explained the lab and helped draft the
 memory methods, the MCP tools and client, the stateless checks, the
-handle authorization check and this section; I ran and checked every
-test myself.
+handle authorization check, the A2A extraction channel and this
+section; I ran and checked every test myself.
 
 All numbers in this report come from my own runs, except those labelled
 as the course recording or as estimates.

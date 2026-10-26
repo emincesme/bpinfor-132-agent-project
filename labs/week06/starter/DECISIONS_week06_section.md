@@ -19,8 +19,24 @@ the course's `open_case`.
 A guessable handle would expose: a sequential handle such as `fact-0007`
 shows how many facts the store holds, and lets anyone who sees one handle
 try its neighbours (`fact-0006`) to read or forget another resident's
-fact. A random handle stops the guessing, but whoever holds a handle can
-still use it. The authorization check is homework.
+fact. A random handle stops the guessing, but on its own whoever holds a
+handle could still use it. Homework, done 2026-10-26: open_case records
+a fingerprint (sha256) of the desk key that opened the case, and
+case_subject answers only a request carrying the same key. Any other
+key, or none, gets the same "ERROR: no such case" as an unknown handle,
+so a stranger cannot even learn that the case exists. The key travels
+in an HTTP header (X-Desk-Key) set by the client program, never as a
+tool argument, so the model never sees it and an injection cannot make
+it write another desk's key. Only the fingerprint is stored, because
+artifacts/memory_store.json is committed. Checked on two instances:
+the opening desk resolved its handle on 8001; another key and a
+missing key were refused.
+
+What the check does not stop: whoever steals a desk's key becomes that
+desk, and the key crosses plain HTTP on localhost, where a real
+deployment needs TLS. recall and remember still take a resident's name
+directly, so they bypass the handle; closing that means making them
+take the handle too. Week 12.
 
 Without a handle, the server would have to remember between calls
 which resident a conversation is about, tied to a session. With a second
@@ -108,10 +124,40 @@ logs and traces, backups, and the git history once
 be deleted, `forget` is necessary but not enough, and telling them
 "deleted" after `forget` alone would not be fully true.
 
+### Homework: the A2A channel
+
+Built in `labs/week06/starter/04_a2a_extraction.py`, with the same three
+pieces as `03_a2a.py`, but the remote agent does real work: it runs my
+week 2 extractor (qwen3:4b-instruct, temperature 0.0, local, 2026-10-26)
+and returns the record as a data part. Results are in
+`artifacts/week06_a2a.json`.
+
+- The card declares one skill, extract_request: text/plain in,
+  application/json out. A skill not on the card (translate) is handled
+  locally and no request is sent.
+- Every task ends in a terminal state. An empty message, an endpoint
+  error, or a record that fails validation give "failed", never a crash
+  and never an invented record. On "failed" the help desk sends the
+  message to a human queue, marked degraded.
+- The task id is kept after a timeout because the agent can be asked
+  again (GET /tasks/<id>). With a 0.5 s budget the call timed out, the
+  agent reported "working", and asking again later returned the
+  completed record.
+- The client validates the artifact as a ServiceRequest before using
+  it, and reports a mismatch rather than stringifying it.
+
+Why A2A here rather than another MCP tool: the extractor is a separate
+agent with its own model and prompt, it takes seconds, and the caller
+needs task states and a way to come back to work it stopped waiting
+for. The memory tools answer at once and hold no model.
+
+What the channel cannot catch: the delegated record validated, but its
+quote was the single word "before". It is verbatim and fits the schema,
+so neither my client's check nor the week 2 scorer flags it, though it
+supports nothing. A schema check proves the shape, not that the content
+is useful.
+
 ### Deferred
 
 - Entry 4, memory off against memory on: not measured, because no
   script this week calls a model (see entry 4).
-- Homework before week 7: build the A2A channel from the marked
-  sections, and add an authorization check on the handle. Today anyone
-  holding a handle can read the case.

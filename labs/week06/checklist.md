@@ -62,10 +62,10 @@ Nothing here asks you to have built it. It asks what you saw.
 
 ## Homework, before week 7
 
-- [ ] The A2A channel built from the marked sections
-- [ ] An authorization check on the handle. Today anyone holding it can read
+- [x] The A2A channel built from the marked sections
+- [x] An authorization check on the handle. Today anyone holding it can read
       the case, and week 12 will attack that.
-- [ ] Keep your keyword `search` behind one method. Week 7 replaces its body
+- [x] Keep your keyword `search` behind one method. Week 7 replaces its body
       with embeddings and the signature does not change.
 
 ## What "done" means here
