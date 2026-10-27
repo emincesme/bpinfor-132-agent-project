@@ -44,9 +44,9 @@ Six items. Names and ranks, never averages.
 
 ## Homework, before week 8
 
-- [ ] The chunk sweep at 300, 600, 1200, reported by question name
-- [ ] This retriever wired into your week 6 memory store's `search`
-- [ ] One sentence on what your retrieval measurement still cannot tell you
+- [x] The chunk sweep at 300, 600, 1200, reported by question name
+- [x] This retriever wired into your week 6 memory store's `search`
+- [x] One sentence on what your retrieval measurement still cannot tell you
 
 ## What "done" means here
 
