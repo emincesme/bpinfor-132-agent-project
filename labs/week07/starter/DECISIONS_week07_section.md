@@ -153,6 +153,36 @@ at all three sizes, and 600 keeps each chunk on one topic and the text
 a model will later read short. On this corpus, retrieval rank alone is
 too easy a test to choose a chunk size.
 
+### Homework: wiring the retriever into the memory store
+
+The brief says to copy the week 7 files into `app/`, wire
+`MemoryStore.search`, remove an `@stub` line and prove it with
+`python -m app.run`. My repository has no `app/` package, no `app.run`
+and no `@stub`: the memory store is `labs/week06/starter/memory.py`. I
+followed the week 6 comment instead ("Week 7 replaces the body of this
+method with embeddings and the signature does not change"):
+`search(subject, query, k)` keeps its signature and still filters to
+one subject first, then ranks that subject's facts by cosine similarity
+of nomic-embed-text embeddings (the week 7 `embed`) instead of counting
+shared words. No chunking: a fact is one short sentence. I did not
+point it at the commune corpus, because that would return the same
+documents for every resident and make the subject boundary pointless.
+
+Proof, A. Muller's facts, 2026-10-27, query "How do I register a new
+address?":
+
+| search | result, in order |
+| keyword (before) | Has a 120 litre bin collected weekly |
+| dense (after) | Lives at Rue Principale 4, Prefers email only, Has a 120 litre bin collected weekly |
+
+The keyword version returned the bin fact because it shares the word
+"a" with the question, and dropped the address fact, which shares no
+word. Dense ranks the address first. The cost is the week 7 lesson:
+dense always returns k facts, so the two unrelated ones come back too,
+only lower. With "email" and k = 1 both versions return "Prefers email
+only". The MCP recall tool calls this method, so it now searches by
+meaning too; the server now needs `labs/week07/starter` on PYTHONPATH.
+
 ### The gold set
 
 `artifacts/goldset.json` now holds 58 cases: the 12 week 7 retrieval
@@ -161,11 +191,10 @@ marked must_refuse.
 
 ### Deferred
 
-- Homework: wiring this retriever into the week 6 memory store's
-  search. To do after the session.
-  name, and wiring this retriever into the week 6 memory store's
-  search. To do after the session.
 - Stretch: splitting Q05 into two queries, and explaining a question
   where keyword ties dense. Not attempted.
 - A keyword search that weights rare terms (BM25) was not tested, so
   entry 6 says only what term overlap does.
+- The wired memory search has no similarity threshold, so when a
+  resident has fewer relevant facts than k, unrelated ones are
+  returned too.

@@ -23,11 +23,22 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from retrieval import embed     # week 7: the same embedder as the index
+
 DEFAULT_PATH = Path("artifacts/memory_store.json")
+
+
+def cosine(a: list[float], b: list[float]) -> float:
+    """How closely two embeddings point the same way, from -1 to 1."""
+    dot = sum(x * y for x, y in zip(a, b))
+    norm = (sum(x * x for x in a) ** 0.5) * (sum(y * y for y in b) ** 0.5)
+    return dot / norm if norm else 0.0
+
 
 def fingerprint(key: str) -> str:
     """A hash of the desk key. The key itself is never written to the file."""
     return hashlib.sha256(key.encode()).hexdigest()
+
 
 @dataclass
 class Fact:
@@ -105,12 +116,12 @@ class MemoryStore:
         """
         # Scope to one subject BEFORE scoring: other residents' facts never enter
         own = [f for f in self.facts if f.subject == subject]
-        words = set(query.lower().split())
-        scored = []
-        for f in own:
-            score = len(words & set(f.text.lower().split()))
-            if score > 0:
-                scored.append((score, f.text))
+        if not own:
+            return []
+        # Week 7: rank by meaning (embeddings, cosine) instead of shared words
+        vectors = embed([query] + [f.text for f in own])
+        q = vectors[0]
+        scored = [(cosine(q, v), f.text) for v, f in zip(vectors[1:], own)]
         scored.sort(key=lambda pair: pair[0], reverse=True)
         return [text for score, text in scored[:k]]
 
