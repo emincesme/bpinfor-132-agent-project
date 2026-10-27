@@ -932,6 +932,41 @@ It cost one run of 01_retrieve.py and a look at the keyword ranking.
 Not finding it would have left a false claim in my gold set, and later
 weeks that reload the gold set would have built on it.
 
+### Homework: the chunk sweep
+
+Same gold set and overlap 80, 2026-10-27. Each cell is dense rank /
+keyword rank. Results in `artifacts/week07_sweep_s300.json`,
+`artifacts/week07_retrieval.json` (600) and
+`artifacts/week07_sweep_s1200.json`.
+
+| qid | 300 (187 chunks) | 600 (95 chunks) | 1200 (57 chunks) |
+| Q01 | 1 / 4 | 1 / 3 | 1 / 4 |
+| Q02 | 1 / 17 | 1 / 14 | 1 / 4 |
+| Q03 | 1 / 1 | 1 / 1 | 1 / 2 |
+| Q04 | 1 / 1 | 1 / 1 | 1 / 1 |
+| Q05 | 37 / 16 | 22 / 17 | 20 / 13 |
+| Q06 | 1 / 4 | 1 / 5 | 1 / 1 |
+| Q07 | 1 / 2 | 1 / 3 | 1 / 2 |
+| Q08 | 1 / 1 | 1 / 1 | 1 / 1 |
+| Q09 | 1 / 3 | 1 / 2 | 1 / 4 |
+| Q10 | 1 / 1 | 1 / 1 | 1 / 1 |
+| Q11 | 1 / 18 | 1 / 12 | 1 / 14 |
+
+Which questions move: on dense, none that matter. Every answerable
+question except Q05 stays at rank 1 at every size, and Q05 stays out of
+the top 5 (37, 22, 20; part of that movement is only the number of
+chunks shrinking), which confirms entry 5: no chunk size fixes it. On
+keyword, Q02 moves most, from 17 to 14 to 4: a longer chunk holds more
+of the common query words, so the gold chunk catches up with the chunks
+that beat it, which suggests term overlap favours long chunks. Q11
+(18, 12, 14) does not follow that pattern, so it is not a rule. Q06
+rises to rank 1 on keyword at 1200.
+
+I keep 600: dense retrieval, the one I would ship, gives the same ranks
+at all three sizes, and 600 keeps each chunk on one topic and the text
+a model will later read short. On this corpus, retrieval rank alone is
+too easy a test to choose a chunk size.
+
 ### The gold set
 
 `artifacts/goldset.json` now holds 58 cases: the 12 week 7 retrieval
@@ -940,7 +975,8 @@ marked must_refuse.
 
 ### Deferred
 
-- Homework: the chunk sweep at 300, 600 and 1200, reported by question
+- Homework: wiring this retriever into the week 6 memory store's
+  search. To do after the session.
   name, and wiring this retriever into the week 6 memory store's
   search. To do after the session.
 - Stretch: splitting Q05 into two queries, and explaining a question
