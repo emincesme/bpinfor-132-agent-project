@@ -41,10 +41,10 @@ Six items. Counts out of three runs, never impressions.
 
 ## Homework, before week 6
 
-- [ ] All three architectures run live, three times each
-- [ ] Task B, the refactoring, attempted, and the gap between architectures
+- [x] All three architectures run live, three times each
+- [x] Task B, the refactoring, attempted, and the gap between architectures
       reported
-- [ ] One sentence on whether the planner earned its cost on task B, given
+- [x] One sentence on whether the planner earned its cost on task B, given
       that it did or did not on task A
 
 ## What "done" means here

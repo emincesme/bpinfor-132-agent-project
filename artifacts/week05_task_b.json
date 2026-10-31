@@ -1,0 +1,102 @@
+{
+  "max_rounds": 20,
+  "rows": [
+    {
+      "architecture": "A baseline",
+      "run": 1,
+      "duplicates_left": 11,
+      "green": true,
+      "done": false,
+      "tokens": 10168,
+      "seconds": 267.7,
+      "tool_calls": 12,
+      "error": null
+    },
+    {
+      "architecture": "B planner",
+      "run": 1,
+      "duplicates_left": 9,
+      "green": true,
+      "done": false,
+      "tokens": 19986,
+      "seconds": 2232.8,
+      "rounds_used": 9,
+      "crashed_rounds": 6,
+      "rounds": [
+        {
+          "round": 1,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 2,
+          "applied": "applied",
+          "fix": "discounts.py: return 0.10 if booking.resident else 0.0 -> return RESIDENT_RATE if booking.resident else 0.0"
+        },
+        {
+          "round": 3,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 4,
+          "applied": "applied",
+          "fix": "discounts.py: return min(total, 0.30) -> return min(total, MAX_TOTAL_DISCOUNT)"
+        },
+        {
+          "round": 5,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 6,
+          "applied": "applied",
+          "fix": "discounts.py: return 0.20 if is_off_peak(booking.start_hour) else 0.0 -> return OFF_PEAK_RATE if is_off_peak(booking.start_hour) else 0.0"
+        },
+        {
+          "round": 7,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 8,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 9,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        }
+      ]
+    },
+    {
+      "architecture": "C planner+reviewer",
+      "run": 1,
+      "duplicates_left": 12,
+      "green": true,
+      "done": false,
+      "tokens": 0,
+      "seconds": 792.6,
+      "rounds_used": 3,
+      "crashed_rounds": 3,
+      "rounds": [
+        {
+          "round": 1,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 2,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        },
+        {
+          "round": 3,
+          "applied": "crashed",
+          "error": "UnexpectedModelBehavior at r = await planner.run(task): Exceeded maximum output retries (3)"
+        }
+      ]
+    }
+  ]
+}

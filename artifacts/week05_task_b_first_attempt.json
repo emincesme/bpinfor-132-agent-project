@@ -1,0 +1,40 @@
+{
+  "max_rounds": 20,
+  "rows": [
+    {
+      "architecture": "A baseline",
+      "run": 1,
+      "duplicates_left": 11,
+      "green": true,
+      "done": false,
+      "tokens": 4043,
+      "seconds": 54.7,
+      "tool_calls": 6,
+      "error": null
+    },
+    {
+      "architecture": "B planner",
+      "run": 1,
+      "duplicates_left": 12,
+      "green": true,
+      "done": false,
+      "tokens": 0,
+      "seconds": 143.1,
+      "rounds_used": 0,
+      "error": "UnexpectedModelBehavior",
+      "rounds": []
+    },
+    {
+      "architecture": "C planner+reviewer",
+      "run": 1,
+      "duplicates_left": 12,
+      "green": true,
+      "done": false,
+      "tokens": 0,
+      "seconds": 147.9,
+      "rounds_used": 0,
+      "error": "UnexpectedModelBehavior",
+      "rounds": []
+    }
+  ]
+}

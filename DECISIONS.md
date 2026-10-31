@@ -652,13 +652,72 @@ and it would break as soon as bookings start at half hours. Also, the
 label in pricing.discount_summary still uses "> 20", and no test covers
 that function, so a green suite says nothing about it.
 
+### Homework: task B, the refactoring
+
+Script `labs/week05/starter/02_task_b.py` (mine; the course gives no
+code for task B), qwen2.5:7b, context 8192, temperature 0.0, one run
+per architecture, 2026-10-31. Results in `artifacts/week05_task_b.json`.
+
+Task B removes the hand-written discount rates: twelve lines in
+discounts.py, pricing.py and report.py that write 0.10, 0.20, 0.15,
+0.30 or "10%", "20%", "15%", "30%" instead of using the four constants
+at the top of discounts.py. With no failing test to say when it is
+done, I defined done in code: zero such lines (comments and the four
+constant definitions do not count) and the suite still green. A manual
+refactor reaches that in 12 edits plus 2 import lines.
+
+My three decisions:
+- every run starts from a copy with the task A fix applied, so the
+  suite starts 16/16 green and only the refactor is measured;
+- B and C may change one line per round, so they get up to 20 rounds,
+  each with the current list of lines still to change (A gets the
+  starting list too); a round that crashes is recorded and the next
+  one starts, and three crashes in a row end the run;
+- C's reviewer is shown the task B rule next to the diff, to test my
+  entry 5 claim that a reviewer could earn its cost on a refactoring
+  if it is given the rule.
+
+| architecture | lines left of 12 | green | rounds (crashed) | tokens | seconds |
+| A baseline | 11 | yes | - | 10,168 | 267.7 |
+| B planner | 9 | yes | 9 (6) | 19,986 | 2,232.8 |
+| C planner + reviewer | 12 | yes | 3 (3) | 0 | 792.6 |
+
+Tokens count only rounds that finished: a crashed round's usage is
+lost with the exception, so B's and C's real cost is higher.
+
+No architecture finished. A changed one line and stopped: its
+instruction says to stop as soon as the tests pass, and on a refactor
+they pass from the start. B removed three lines in nine rounds. C never
+reached its reviewer, so the claim in entry 5 is still untested.
+
+Every crash was the planner. A probe (the planner on the task B prompt,
+all messages captured) showed the model returning an empty answer, no
+text and no tool call, three times, until Pydantic AI gave up with
+"Exceeded maximum output retries (3)". I had guessed that the one-file
+suspect_file field rejected a three-file plan; the probe showed that
+guess was wrong. The planner failed in 9 of 12 calls on task B, and why
+the model answers with nothing I cannot see from here. One untested
+hypothesis: its instruction says "You have NO tools", while Pydantic AI
+asks for the plan through a tool call.
+
+A first attempt, before a crashed round was allowed to continue, ended
+B and C in round 1 with 12 lines left; it is kept in
+`artifacts/week05_task_b_first_attempt.json`.
+
+Does the gap between architectures widen? Not in any useful sense: none
+finished, and the differences come from two failure modes, A stopping
+early and the planner returning nothing, not from better or worse
+planning.
+
+Did the planner earn its cost on task B? No: B spent 37 minutes and
+about 20,000 tokens for 3 of 12 edits, with the planner failing in 6 of
+its 9 rounds, and on task A it did not earn its cost either (B 0/3
+against A 1/3).
+
 ### Deferred
 
-Task B (the refactoring) not attempted yet. Repair once on a failed plan
-not implemented. The planner was not given the file list, to keep the
-course design. Only three runs per architecture, so the crash rate is
-not reliable. The bad patch and wrong-but-passing reviewer tests from
-"If you finish early" not done.
+Task B: one run per architecture only, because one run took up to 37
+minutes on this machine.
 
 ## Week 6
 
@@ -1040,8 +1099,8 @@ loop, the tool executor, the scorer and this section; I ran and checked
 every measurement myself.
 
 **Week 5:** Claude explained the lab and helped draft the
-validator, the reviewer instructions and this section; I ran and checked
-every measurement myself.
+validator, the reviewer instructions, the task B script and this
+section; I ran and checked every measurement myself.
 
 **Week 6:** Claude explained the lab and helped draft the
 memory methods, the MCP tools and client, the stateless checks, the
