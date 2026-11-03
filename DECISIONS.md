@@ -1111,5 +1111,79 @@ section; I ran and checked every test myself.
 two metrics, the retrievers, the corrected Q02 note, the memory search
 wiring and this section; I ran and checked every measurement myself.
 
+**Week 8 assembly:** Claude explained the skeleton and the handout and
+drafted the import changes, the search change and this section; I made
+every edit and ran every check myself.
+
+## Week 8 (before the practical): assembling the application
+
+### 1. What is in app/, and why
+
+```
+Assembled on 2026-11-02 from my own labs/weekNN/starter files into the
+course skeleton (app_skeleton.zip, version 2026-10). Sibling imports
+became relative. Other changes:
+
+- extract (week 2): SYSTEM is the few-shot prompt I shipped in week 2,
+  the zero-shot instructions plus EX-01, EX-03 and EX-04, copied from
+  REQUEST_EXAMPLES in my week 3 routes.py.
+
+- route (week 3): router kept. Week 3 said "not yet" because the
+  monolith replies were never scored, so this is not a measured win.
+  I keep it because only the router sends a request to the extractor
+  and the approval gate; without it every message takes the answer
+  path.
+
+- agent (week 4): persist=False added to rec.finish in run_task, so
+  each request writes one trace (checked: 229 records, not 230).
+
+- plan (week 5): the plain loop, by choice. The three pass-throughs
+  stay and their @stub lines are removed. Week 5: the planner went
+  0/3 on task A and every task B crash was the planner returning an
+  empty response; the reviewer rejected the correct fix twice.
+
+- memory (weeks 6 and 7): search keeps the week 6 boundary (one
+  subject's facts, ranked by embedding cosine) and fills the rest of
+  k with dense chunks from the week 7 corpus (600/80). In week 7 I
+  kept the corpus out of search; the assembly handout asks for it
+  here. The boundary still holds, because facts are filtered by
+  subject first and the corpus is public commune text, the same for
+  every resident. corpus/ was copied to the repository root, where
+  corpus_loader looks for it.
+
+- mcp (week 6): my server, only the import changed. It starts with
+  python -m app.mcp_server.
+```
+
+### 2. What is still a stub
+
+```
+retry and gate (week 8), vision and checks (week 9). They are wired
+after their practicals. Every trace lists them in notes["stubbed"].
+```
+
+### 3. Still open
+
+```
+Runs on 2026-11-02, router and specialists qwen3:4b-instruct, agent
+qwen2.5:7b, temperature 0.0, one run each.
+
+- Two knowledge sources. The agent's search_services reads the week 4
+  handbook; memory.search reads the week 7 corpus. "Which form do I
+  use to change the bank details on my waste collection invoice?"
+  got "Form R-12" after one search_services call while memory was a
+  stub. With three corpus chunks added to the question, the agent
+  called no tool and answered "The handbook does not cover"
+  (trace 568ded45f7db), which its own prompt forbids before a search.
+- A subject with three or more facts fills k=3, so the corpus is
+  never searched for them. "When is my bin collected?" got the full
+  collection calendar as anonymous and "the handbook does not cover"
+  for A. Muller.
+- "My bin was not collected." was routed to status, and the status
+  specialist invented a reference number (789456321). The outcome was
+  ok: ok means no step failed, not that the answer is right.
+- The router is kept without a quality comparison with the monolith.
+```
+
 All numbers in this report come from my own runs, except those labelled
 as the course recording or as estimates.
