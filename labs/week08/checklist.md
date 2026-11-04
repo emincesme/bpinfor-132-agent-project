@@ -48,9 +48,9 @@ and appears once.
 
 ## Homework, before week 9
 
-- [ ] The timeout on an unanswered approval, with proof that it fires
-- [ ] One trace where a retry, a fallback, and the gate are all visible
-- [ ] One sentence on what your fault harness cannot simulate
+- [x] The timeout on an unanswered approval, with proof that it fires
+- [x] One trace where a retry, a fallback, and the gate are all visible
+- [x] One sentence on what your fault harness cannot simulate
 
 ## What "done" means here
 
