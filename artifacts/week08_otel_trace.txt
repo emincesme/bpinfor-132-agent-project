@@ -1,0 +1,9 @@
+case RB-2026-0042 {}
+  step:search {'tries': 3, 'used_fallback': True, 'outcome': 'fallback'}
+    - attempt {'n': 1, 'error': 'ToolTimeout: search timed out'}
+    - attempt {'n': 2, 'error': 'ToolTimeout: search timed out'}
+    - attempt {'n': 3, 'error': 'ToolTimeout: search timed out'}
+  step:fees {'tries': 2, 'used_fallback': False, 'outcome': 'ok'}
+    - attempt {'n': 1, 'error': 'ServerError: fees returned 500 (flaky, first call)'}
+    - attempt {'n': 2, 'error': 'none'}
+  gate {'action': 'submit_case', 'verdict': 'approve', 'submitted': True}

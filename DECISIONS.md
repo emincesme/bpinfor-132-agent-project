@@ -1192,12 +1192,22 @@ the experiment after the run.
 - The full --batch over 58 gold cases has not been run yet (about 30 to
   60 minutes on this machine).
 
+### Homework: OpenTelemetry trace
+
+`labs/week08/starter/03_otel.py` runs one case through the week 8 graph
+with search:timeout and fees:flaky (opentelemetry-sdk, 2026-11-04).
+Every call through the retry ladder becomes a span and every attempt an
+event on it, by wrapping call_with_policy, so graph.py is unchanged; the
+gate is a span of its own. The trace, in
+`artifacts/week08_otel_trace.txt`, shows the fallback (search, 3 tries,
+used_fallback True), the retry (fees, 2 tries, ok) and the gate
+(approve, submitted). The spans are kept in memory and printed, not
+sent to a collector.
+
 ### Deferred
 
 - Homework, timeout: built in app/ as the unattended path, proved
   above. A timer that waits a set time for a person is not built.
-- Homework, OpenTelemetry trace with a retry, a fallback and the gate
-  visible: not done.
 - What my fault harness cannot simulate: a response with the right
   shape and a wrong value, for example a fee of 6.00 instead of 60.00.
   validate_fee checks the shape only, so it would pass and the answer
@@ -1205,7 +1215,7 @@ the experiment after the run.
   why WRONG stayed at 0 in both runs.
 - Stretch: the gate firing with no human present is shown by the
   unattended run, not by an automated test.
-  
+
 ## AI assistance
 
 **Week 1:** I used ChatGPT to help explain concepts, understand the starter
@@ -1250,8 +1260,8 @@ drafted the import changes, the search change and this section; I made
 every edit and ran every check myself.
 
 **Week 8:** Claude explained the lab and helped draft the retry
-ladder, the approval gate and this section; I made the decisions and
-ran every check myself.
+ladder, the approval gate, the OpenTelemetry script and this section;
+I made the decisions and ran every check myself.
 
 ## Week 8 (before the practical): assembling the application
 
