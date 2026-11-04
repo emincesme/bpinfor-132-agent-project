@@ -30,9 +30,65 @@ interrupt, read only.
 
 from __future__ import annotations
 
-from .stub import stub
+import getpass
+from typing import TypedDict
+
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.graph import END, START, StateGraph
+from langgraph.types import Command, interrupt
+
+from project.trace import repo_root
+
+DB = repo_root() / "artifacts" / "approvals.sqlite"
+
+# Week 8 decision: an unanswered approval is not submitted, it is held
+# for a person.
+TIMEOUT_VERDICT = "timeout"
 
 
-@stub(week=8, does="refuses: rejects every submission, nothing is submitted")
+class GateState(TypedDict):
+    payload: dict
+    decision: dict
+
+
+def submit(state: GateState) -> dict:
+    # Above the interrupt: read only. Anything here runs twice.
+    decision = interrupt(state["payload"])
+    return {"decision": decision}
+
+
+def _build(saver):
+    graph = StateGraph(GateState)
+    graph.add_node("submit", submit)
+    graph.add_edge(START, "submit")
+    graph.add_edge("submit", END)
+    return graph.compile(checkpointer=saver)
+
+
+def _ask_a_person(payload: dict) -> dict:
+    print("\n  APPROVAL NEEDED:", payload["action"], payload["case_id"])
+    print("    arguments:", payload["arguments"])
+    print("    evidence: ", payload["evidence"])
+    if payload["degraded"]:
+        print("    missing:  ", payload["missing"])
+    verdict = input("  approve, edit or reject? ").strip().lower()
+    decision = {"verdict": verdict, "by": getpass.getuser()}
+    if verdict == "edit":
+        field = input("  field to change: ").strip()
+        value = input("  new value: ").strip()
+        decision["arguments"] = {**payload["arguments"], field: value}
+    return decision
+
+
 def request_approval(payload: dict, unattended: bool = False) -> dict:
-    return {"verdict": "reject", "by": "stub", "arguments": {}}
+    if unattended:
+        return {"verdict": TIMEOUT_VERDICT, "by": "nobody (unattended)",
+                "arguments": payload["arguments"]}
+    cfg = {"configurable": {"thread_id": payload["case_id"]}}
+    DB.parent.mkdir(parents=True, exist_ok=True)
+    with SqliteSaver.from_conn_string(str(DB)) as saver:
+        graph = _build(saver)
+        out = graph.invoke({"payload": payload, "decision": {}}, cfg)
+        asked = out["__interrupt__"][0].value
+        out = graph.invoke(Command(resume=_ask_a_person(asked)), cfg)
+    return out["decision"]
