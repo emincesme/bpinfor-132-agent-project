@@ -57,11 +57,11 @@ you about while walking the room.
 
 ## Homework
 
-- [ ] One document of your own, photographed rather than rendered, run
+- [x] One document of your own, photographed rather than rendered, run
       through the sweep, and where it sits relative to the five here
-- [ ] `code_triage` wired to the week 8 approval gate, so a failed check
+- [x] `code_triage` wired to the week 8 approval gate, so a failed check
       routes to a human instead of printing a verdict
-- [ ] One paragraph: what fires your gate, and why it is not model
+- [x] One paragraph: what fires your gate, and why it is not model
       confidence
 
 ## The three things a demonstrator will ask

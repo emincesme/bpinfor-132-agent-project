@@ -1,0 +1,6 @@
+clean false_alarm {'net': 2.66, 'vat': 0.32, 'total': 2.98} ['vat rate: 0.32 is not 17% of 2.66', 'format: invoice_number', 'plausibility: total 2.98 out of range'] []
+scale=0.6 refused {'net': None, 'vat': None, 'total': None} ['arithmetic: an amount is missing', 'format: invoice_number', 'format: purchase_order'] ['transport: timed out']
+scale=0.4 false_alarm {'net': 2.66, 'vat': 0.32, 'total': 2.98} ['vat rate: 0.32 is not 17% of 2.66', 'format: invoice_number', 'format: currency', 'plausibility: total 2.98 out of range'] ['transport: timed out']
+scale=0.4+jpeg=20 false_alarm {'net': 2.66, 'vat': 0.32, 'total': 2.98} ['vat rate: 0.32 is not 17% of 2.66', 'format: invoice_number', 'format: purchase_order', 'plausibility: total 2.98 out of range'] []
+scale=0.4+blur=1.0 false_alarm {'net': 2.66, 'vat': 0.32, 'total': 2.98} ['vat rate: 0.32 is not 17% of 2.66', 'format: invoice_number', 'plausibility: total 2.98 out of range'] []
+scale=0.4+rotate=4 false_alarm {'net': 2.66, 'vat': 0.32, 'total': 2.98} ['vat rate: 0.32 is not 17% of 2.66', 'format: invoice_number', 'format: purchase_order', 'plausibility: total 2.98 out of range'] []

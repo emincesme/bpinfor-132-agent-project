@@ -2,3 +2,4 @@ ai_agents_project.egg-info/
 __pycache__/
 *.pyc
 .DS_Store
+labs/week09/own/

@@ -1394,6 +1394,23 @@ still arrive as normal responses, the checks still catch inconsistency
 rather than error, and the model would still read the INV-005 sentence,
 so the defence remains the code gate.
 
+## Homework
+
+What fires the gate is our code, not the model. code_triage sends an
+invoice to a person when a check fired, when the total could not be
+read, or when the total is over 1000 EUR. We do not use the model’s
+confidence, because the model can be wrong and still look sure: it
+approved INV-005 only because a sentence on the invoice told it to. Our
+code only looks at numbers, so no sentence on an invoice can change its
+decision.
+
+One document of my own: a supermarket receipt photographed with an
+iPhone (live, 2026-11-10). The amounts were read correctly in every
+variant where the call finished, so it reads better than INV-003. Two
+calls timed out after 300 s, and every row was a false alarm because
+the checks are tuned to one supplier, so the receipt always goes to a
+person.
+
 ## AI assistance
 
 **Week 1:** I used ChatGPT to help explain concepts, understand the starter
