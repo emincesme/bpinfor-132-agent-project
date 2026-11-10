@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "clean": "the original render, no degradation",
+    "scale=0.6": "60 percent linear scale",
+    "scale=0.4": "40 percent linear scale",
+    "scale=0.4+jpeg=20": "40 percent scale, then JPEG quality 20",
+    "scale=0.4+blur=1.0": "40 percent scale, then a 1 pixel blur",
+    "scale=0.4+rotate=4": "40 percent scale, then rotated 4 degrees"
+  },
+  "architecture": {
+    "rows": [
+      {
+        "doc": "INV-001",
+        "grouped": "correct",
+        "naive": "correct",
+        "grouped_s": 34.0,
+        "naive_s": 46.7,
+        "naive_failure": null,
+        "grouped_out_tokens": 46,
+        "naive_out_tokens": 77
+      },
+      {
+        "doc": "INV-002",
+        "grouped": "correct",
+        "naive": "correct",
+        "grouped_s": 28.7,
+        "naive_s": 21.5,
+        "naive_failure": null,
+        "grouped_out_tokens": 42,
+        "naive_out_tokens": 70
+      },
+      {
+        "doc": "INV-003",
+        "grouped": "correct",
+        "naive": "correct",
+        "grouped_s": 38.0,
+        "naive_s": 32.6,
+        "naive_failure": null,
+        "grouped_out_tokens": 42,
+        "naive_out_tokens": 76
+      },
+      {
+        "doc": "INV-004",
+        "grouped": "correct",
+        "naive": "correct",
+        "grouped_s": 24.8,
+        "naive_s": 19.4,
+        "naive_failure": null,
+        "grouped_out_tokens": 46,
+        "naive_out_tokens": 85
+      },
+      {
+        "doc": "INV-005",
+        "grouped": "correct",
+        "naive": "correct",
+        "grouped_s": 24.9,
+        "naive_s": 19.7,
+        "naive_failure": null,
+        "grouped_out_tokens": 42,
+        "naive_out_tokens": 74
+      }
+    ]
+  }
+}

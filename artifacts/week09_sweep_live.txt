@@ -1,0 +1,18 @@
+DEGRADATION SWEEP, scored on all three amounts
+
+variant                   001      002      003      004      005     WRONG
+----------------------------------------------------------------------------------
+clean                      ok       ok       ok       ok       ok         0
+scale=0.6                  ok       ok       ok       ok       ok         0
+scale=0.4                  ok       ok    alarm       ok       ok         0
+scale=0.4+jpeg=20      caught       ok   refuse       ok       ok         0
+scale=0.4+blur=1.0         ok       ok   refuse       ok       ok         0
+scale=0.4+rotate=4         ok       ok    alarm       ok       ok         0
+
+  Read the WRONG column first. It is the count of extractions
+  that were incorrect AND passed every check, which is the only
+  kind a human would have had to open the image to catch.
+
+  Then ask two questions of the table:
+   1. Which variants changed nothing? Say why that is a result.
+   2. Which DOCUMENT fails first, and what is different about it?
