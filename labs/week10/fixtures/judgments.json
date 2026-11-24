@@ -1,0 +1,86 @@
+{
+ "L-01": {
+  "case_id": "L-01",
+  "score": 1.0,
+  "verdict": "pass",
+  "reason": "The actual output directly answers the input question with the same details as the expected output, including the cost and application location. All facts are explicitly present in the expected output and no invented details such as a fee, deadline, or office name are introduced. The response is complete and verifiable without extrapolation, fully aligning with the evaluation steps.",
+  "seconds": 40.3
+ },
+ "L-02": {
+  "case_id": "L-02",
+  "score": 0.3,
+  "verdict": "fail",
+  "reason": "The actual output states a vignette cost of 85 EUR, which contradicts the expected output's stated cost of 60 EUR. This discrepancy violates the requirement to derive all facts directly from the expected output without extrapolation. Additionally, the actual output includes a detail (cost) not present in the expected output, violating step 2. Thus, the response contains invented or incorrect information and fails to align with the evaluation steps.",
+  "seconds": 5.7
+ },
+ "L-03": {
+  "case_id": "L-03",
+  "score": 0.0,
+  "verdict": "fail",
+  "reason": "The actual output mentions 'The library is open on Saturday mornings', which is entirely unrelated to the input question about the vignette cost and application location. This invented detail (library hours) is not present in the expected output and violates evaluation step 2. Additionally, the actual output fails to address the input question at all, showing no alignment with the expected output in content or intent, thus failing step 1 and step 4.",
+  "seconds": 4.3
+ },
+ "L-04": {
+  "case_id": "L-04",
+  "score": 1.0,
+  "verdict": "pass",
+  "reason": "The actual output correctly states that bulky waste is collected on the first Saturday of the month by appointment, which is explicitly present in the expected output. It does not introduce any invented details such as a fee, deadline, or office name. The information provided is directly derived from the expected output and aligns fully with the input question. All facts in the actual output are verifiable and present in the expected output without extrapolation.",
+  "seconds": 6.4
+ },
+ "L-05": {
+  "case_id": "L-05",
+  "score": 0.6,
+  "verdict": "pass",
+  "reason": "The actual output states the cost of the vignette correctly as 60 EUR per year, which is present in the expected output. However, it omits the application location (Bierger-Center) and the requirement of proof of residence, which are explicitly stated in the expected output. While the cost is accurate, the actual output is incomplete in addressing the input question. Additionally, no invented details are present, so step 2 is satisfied. The response fails to include all facts from the expected output, violating step 3. Thus, the score is reduced due to incompleteness despite correct factual content.",
+  "seconds": 8.9
+ },
+ "L-06": {
+  "case_id": "L-06",
+  "score": 0.4,
+  "verdict": "fail",
+  "reason": "The actual output states the cost and application method correctly, matching the expected output's cost of 60 EUR per year. However, it incorrectly mentions 'online through the citizen portal' instead of 'at the Bierger-Center with proof of residence', which is explicitly stated in the expected output. This invented detail about an online portal violates step 2. Additionally, the actual output does not mention 'residential parking vignette' as specified in the expected output, missing a key fact from the expected response. These deviations indicate a failure to adhere to the required verifiability and accuracy standards.",
+  "seconds": 6.6
+ },
+ "L-07": {
+  "case_id": "L-07",
+  "score": 0.3,
+  "verdict": "fail",
+  "reason": "The actual output does not mention the cost or application location as stated in the expected output, failing to directly answer the input question with facts explicitly present in the expected output. It also introduces no invented details, but it is incomplete in addressing the query. Since it does not derive any facts from the expected output, it violates step 4, which requires all stated facts to be verifiable and directly derived from the expected output. Thus, it lacks sufficient alignment with the evaluation steps.",
+  "seconds": 5.8
+ },
+ "L-08": {
+  "case_id": "L-08",
+  "score": 0.9,
+  "verdict": "pass",
+  "reason": "The actual output correctly states the cost as sixty euros and mentions the Bierger-Center as the application location, both of which are explicitly present in the expected output. It does not invent any details such as a fee, deadline, or office name. The information is directly derived from the expected output without extrapolation. However, the actual output omits the word 'residential' and uses 'bring' instead of 'applied for', which slightly reduces precision. Despite this, all facts are verifiable and present in the expected output, satisfying the evaluation steps. The response is complete and accurate within the constraints of the expected output.",
+  "seconds": 8.4
+ },
+ "L-09": {
+  "case_id": "L-09",
+  "score": 0.7,
+  "verdict": "pass",
+  "reason": "The actual output correctly states that bulky waste is collected on the first Saturday of the month, which is explicitly present in the expected output. However, it omits the detail 'by appointment' from the expected output, which is a key fact in the expected response. Since the actual output does not include this verifiable detail from the expected output, it is incomplete. The response does not invent any new elements like a fee or deadline. It directly answers the input using only facts from the expected output, satisfying step 1 and 4, but falls short in completeness as per step 3. Thus, while accurate in content, it misses a critical detail present in the expected output.",
+  "seconds": 8.1
+ },
+ "L-10": {
+  "case_id": "L-10",
+  "score": 0.2,
+  "verdict": "fail",
+  "reason": "The actual output states 'Waste is collected on Tuesdays', which does not match the expected output's specific mention of 'bulky waste' being collected on the first Saturday of the month. The actual output also fails to include the correct collection day for bulky waste as specified in the expected output. Furthermore, it invents a general category 'waste' without specifying it as bulky waste, which is not present in the expected output. This violates evaluation step 1 and step 2, as it introduces facts not found in the expected output and misrepresents the specific details of bulky waste collection.",
+  "seconds": 10.4
+ },
+ "L-11": {
+  "case_id": "L-11",
+  "score": 0.4,
+  "verdict": "fail",
+  "reason": "The actual output correctly states that bulky waste is collected on the first Saturday of the month, which is present in the expected output. However, it introduces the detail 'Please book at least 48 hours in advance', which is not in the expected output and thus violates step 2. Additionally, the actual output does not mention 'by appointment' as in the expected output, missing a key fact. While the core fact about collection day is accurate, the invented detail about booking time reduces alignment with the evaluation steps. The response is incomplete in addressing the expected facts and includes an invented element.",
+  "seconds": 8.1
+ },
+ "L-12": {
+  "case_id": "L-12",
+  "score": 0.4,
+  "verdict": "fail",
+  "reason": "The actual output includes invented details such as 'there may be a waiting list', which is not present in the expected output and thus violates evaluation step 2. While the cost and application location are correctly stated and derived from the expected output, the addition of an unmentioned element constitutes a failure to adhere to the requirement of only using explicitly present information. This undermines the accuracy and integrity of the response as per evaluation step 4.",
+  "seconds": 6.1
+ }
+}

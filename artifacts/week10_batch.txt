@@ -1,0 +1,5 @@
+gold set: 58 cases, own, run 2 time(s), unattended
+
+blocked 34  ok 82
+stubs: none
+116 traces appended to artifacts/traces.jsonl
