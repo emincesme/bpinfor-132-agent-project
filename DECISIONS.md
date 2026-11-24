@@ -1571,6 +1571,26 @@ see deliberate stops. Finding these needs hand labels on our own answers, a
 judge from another model family, and the batch rerun under faults and
 paraphrases.
 
+## Homework
+
+Gold set: added the five week 9 invoices (INV-001 to INV-005, `week_added`
+9), from 58 to 63 cases; each `expected_behavior` says in one line what the
+case is for. `--batch` sends text only, so these five run with
+`python -m app.run --image`.
+
+Pre-commit: `.git/hooks/pre-commit` (not versioned) runs
+`pytest -q -m "not judged" -p no:deepeval` on the week 10 gates: 4 passed,
+2 xfailed, 1.8 s wall, 0.05 s of it tests (2026-11-24). With DeepEval's
+pytest plugin loaded the same run took 2.9 s.
+
+Block a release: the three judged gates and the free gates on trace
+conditions and gold-set ids, because each failure means a number we report
+is no longer evidence. Warn only: accuracy and the four reliability
+dimensions, because "ok" is not "correct", they summarise past runs across
+several systems, and app predictability still reads deliberate stops as
+silent failures. The predictability floor becomes blocking once the app
+writes a flag when it stops.
+
 ## AI assistance
 
 **Week 1:** I used ChatGPT to help explain concepts, understand the starter
@@ -1627,6 +1647,10 @@ every test and measurement myself.
 the judge, `validate`, the three judged gates and this section; it chose
 the gate bars and added the two xfail markers with my permission. I kept
 the L-07 label, chose the xfail route, and ran every measurement myself.
+
+**Week 10 homework:** Claude drafted the five gold cases and the
+block-or-warn paragraph and added them with my permission; I set up and
+timed the pre-commit hook.
 
 ## Week 8 (before the practical): assembling the application
 

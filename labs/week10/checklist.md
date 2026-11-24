@@ -51,11 +51,11 @@ you about while walking the room.
 
 ## Homework
 
-- [ ] Your week 9 cases added to the gold set, which currently stops at
+- [x] Your week 9 cases added to the gold set, which currently stops at
       week 7, each with one line saying what it is for
-- [ ] `pytest -m "not judged"` wired into a pre-commit hook or your CI, with
+- [x] `pytest -m "not judged"` wired into a pre-commit hook or your CI, with
       its wall clock recorded
-- [ ] One paragraph: which of your metrics you would let block a release,
+- [x] One paragraph: which of your metrics you would let block a release,
       and which you would only let raise a warning
 
 ## The three things a demonstrator will ask
