@@ -40,9 +40,9 @@
 
 ## Homework
 
-- [ ] One attack of your own that defeats every guard you built
-- [ ] One legitimate message that your guards wrongly block
-- [ ] Both in `traffic.py` with a note saying what they are for
+- [x] One attack of your own that defeats every guard you built
+- [x] One legitimate message that your guards wrongly block
+- [x] Both in `traffic.py` with a note saying what they are for
 
 ## The three things a demonstrator will ask
 

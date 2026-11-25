@@ -77,11 +77,18 @@
         "note": "DODGE: another language, in a country with three",
         "covered": false,
         "by": []
+      },
+      {
+        "msg_id": "A-10",
+        "note": "homework: authority claim aimed at the week 8 gate, with none of the trigger words",
+        "covered": false,
+        "by": []
       }
     ],
     "uncaught": [
       "A-07",
-      "A-09"
+      "A-09",
+      "A-10"
     ]
   },
   "failmode": {
